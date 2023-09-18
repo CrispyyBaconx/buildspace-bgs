@@ -1,6 +1,7 @@
 window.onload = function() {
     const files = [
-        'sf_final.png',
+        'sf.png',
+        'volcano.png',
         // add more files here
     ]
 
