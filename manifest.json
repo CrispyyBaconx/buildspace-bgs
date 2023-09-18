@@ -1,7 +1,7 @@
 {
   "name": "buildspace os",
-  "description": "buildspace os — your new home for nights and weekends",
-  "version": "1.0.0",
+  "description": "buildspace os — just as a background for new tabs",
+  "version": "1.0.69",
   "manifest_version": 3,
   "icons": {
     "48": "assets/48.png",
