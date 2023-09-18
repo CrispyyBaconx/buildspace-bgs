@@ -12,7 +12,7 @@ window.onload = function() {
 
     // if(settings.text) {}
     var text = document.getElementById('text');
-    text.innerHTML = 'Welcome!';
+    text.innerHTML = 'Welcome, Bacon!';
 }
 
 // add a thing for when the ext is clicked some settings for text and image selection
