@@ -15,5 +15,8 @@
 		"default_title": "buildspace bgs",
         "default_popup": "popup.html"
     },
-    "permissions": ["tabs"]
+    "permissions": [
+        "tabs",
+        "storage"
+    ]
 }
