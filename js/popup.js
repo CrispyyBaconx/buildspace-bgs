@@ -4,10 +4,14 @@ window.onload = function() {
         'volcano.png',
     ];
 
+    // Initialize excluded_items as an empty array if it doesn't exist
     chrome.storage.local.get('excluded_items', function(result) {
         if (!Array.isArray(result.excluded_items)) {
             chrome.storage.local.set({ 'excluded_items': [] });
         }
+
+        // Load images and set their initial CSS class based on the stored data
+        loadImages(result.excluded_items);
     });
 
     chrome.storage.local.get('homepage_text', function(result) {
@@ -22,36 +26,46 @@ window.onload = function() {
     });
 
     // need to load images
-    var images = document.getElementById('images');
+    function loadImages(excludedItems) {
+        var images = document.getElementById('images');
 
-    for (let i = 0; i < list.length; i++) {
-        var image = document.createElement('img');
-        var imageName = list[i];
-        image.src = 'assets/backgrounds/' + imageName;
-        image.id = imageName;
-        image.className = 'image';
-        image.addEventListener('click', function(id) {
-            return function() {
-                chrome.storage.local.get('excluded_items', function(result) {
-                    if (result.excluded_items) {
-                        if (result.excluded_items.includes(id)) {
-                            const updated_list = result.excluded_items.filter(item => item !== id);
-                            chrome.storage.local.set({ 'excluded_items': updated_list });
-                            let img = document.getElementById(id);
-                            img.className = 'image';
-                        } else {
-                            const updated_list = [...result.excluded_items, id];
-                            chrome.storage.local.set({ 'excluded_items': updated_list });
-                            let img = document.getElementById(id);
-                            img.className = 'image excluded';
-                        }
-                    } else {
-                        chrome.storage.local.set({ 'excluded_items': [id] });
-                        image.className = 'image excluded';
+        for (let i = 0; i < list.length; i++) {
+            var image = document.createElement('img');
+            var imageName = list[i];
+            image.src = 'assets/backgrounds/' + imageName;
+            image.id = imageName;
+            
+            // Set the initial CSS class based on whether the image is excluded
+            image.className = excludedItems.includes(imageName) ? 'image excluded' : 'image';
+
+            image.addEventListener('click', function(id) {
+                return function() {
+                    const selectedImages = document.querySelectorAll('.image.excluded');
+                    if (selectedImages.length === 1 && selectedImages[0].id !== id) {
+                        return;
                     }
-                });
-            };
-        }(imageName));
-        images.appendChild(image);
+
+                    chrome.storage.local.get('excluded_items', function(result) {
+                        if (result.excluded_items) {
+                            if (result.excluded_items.includes(id)) {
+                                const updated_list = result.excluded_items.filter(item => item !== id);
+                                chrome.storage.local.set({ 'excluded_items': updated_list });
+                                let img = document.getElementById(id);
+                                img.className = 'image';
+                            } else {
+                                const updated_list = [...result.excluded_items, id];
+                                chrome.storage.local.set({ 'excluded_items': updated_list });
+                                let img = document.getElementById(id);
+                                img.className = 'image excluded';
+                            }
+                        } else {
+                            chrome.storage.local.set({ 'excluded_items': [id] });
+                            image.className = 'image excluded';
+                        }
+                    });
+                }
+            }(imageName));
+            images.appendChild(image);
+        }
     }
 }
