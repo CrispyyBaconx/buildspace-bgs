@@ -1,4 +1,4 @@
-# buildspace os
+# buildspace bgs
 
 ## setup
 ### you don't need to write any code or know how to code to set this up. It will take 2 mins max — promise
